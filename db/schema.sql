@@ -10,8 +10,10 @@ CREATE TABLE department (
 
 -- Set up the Roles --
 CREATE TABLE role (
-    
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(30) NOT NULL,
+    salary DECIMAL(8,2) NOT NULL,
+    department_id INT NOT NULL,
 )
-
 
 -- Set up Employee --
