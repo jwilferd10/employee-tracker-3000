@@ -1,17 +1,21 @@
-// Set up requires 
-const mysql = require('mysql');
-const inquirer = require('inquirer');
-const consTable = require('console.table');
+// Require the connection.js
 
-// Set up the database connection
-const db = new Database ({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '123',
-    database: serverEmployees_db
-});
+// Start setting up the Database, within it we want:
 
-// Call Database
+    // Constructor with connection
 
-// Server functions below 
+    // Ability to view all departments, SELECT, FROM, and ORDER BY
+
+    // View All Roles, by Select, from, left join, order by
+
+    // View all employees SELECT, FROM, LEFT JOIN for employee.role_id, etcetera
+
+    // Adding a department which is an INSERT INTO
+
+    // Add Role which is an INSERT INTO
+
+    // Add Employee INSERT INTO
+
+    // Update Employee Role, which is an UPDATE, SET, and WHERE.
+
+    // Then export
