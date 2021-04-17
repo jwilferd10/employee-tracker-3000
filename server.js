@@ -204,7 +204,44 @@ async function addEmployee() {
 }
 
 // Add ability to UPDATE employee
-async function updateEmployeeRole() {}
+async function updateEmployeeRole() {
+    // View all available roles to add the Employee to
+    const positions = await db.viewAllRoles();
+
+    const positionOptions = positions.map(({ id, title }) => ({
+        name: title,
+        value: id
+    }));
+
+    const employees = await db.viewAllEmployees();
+
+    const employeeOptions = employees.map(({ id, first_name, last_name }) => ({
+        name: `${first_name} ${last_name}`,
+        value: id
+    }));
+
+    const { employee_id } = await inquirer.prompt ([
+        {
+            type: 'list',
+            name: 'employee_id',
+            message: 'Pick an employees role to update',
+            choices: employeeOptions
+        }
+    ])
+
+    const { role_id } = await inquirer.prompt ([
+        {
+            type: 'list',
+            name: 'role_id',
+            message: 'Pick the employees new role.',
+            choices: positionOptions
+        }
+    ])
+
+    await db.updateEmployeeRole(role_id, employee_id)
+    console.log('Success! The role has been updated.');
+    startApp();
+}
 
 
 // Call the function
