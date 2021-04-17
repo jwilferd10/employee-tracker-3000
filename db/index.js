@@ -72,22 +72,57 @@ class DB {
             `
         )
     }
+
+    // Add department from department
+    addDepartment(department) {
+        return this.connection.query (
+            `
+                INSERT INTO
+                    department
+                SET
+                    ?
+            `, department
+        )
+    }
+
+    // Add the role from the role
+    addRole(role) {
+        return this.connection.query (
+            `
+                INSERT INTO
+                    role
+                SET
+                    ?
+            `, role
+        )
+    }
+
+    // Add employee from employee
+    addEmployee(employee) {
+        return this.connection.query (
+            `
+                INSERT INTO
+                    employee
+                SET
+                    ?
+            `, employee
+        )
+    }
+
+    // Update the employee role based on the role and employee ID
+    updateEmployeeRole(role_id, employee_id) {
+        return this.connection.query (
+            `
+                UPDATE
+                    employee
+                SET
+                    role_id = ?
+                WHERE
+                    id = ?
+            `, [role_id, employee_id]
+        )
+    }
 }
 
-
-
-    // Ability to view all departments, SELECT, FROM, and ORDER BY
-
-    // View All Roles, by Select, from, left join, order by
-
-    // View all employees SELECT, FROM, LEFT JOIN for employee.role_id, etcetera
-
-    // Adding a department which is an INSERT INTO
-
-    // Add Role which is an INSERT INTO
-
-    // Add Employee INSERT INTO
-
-    // Update Employee Role, which is an UPDATE, SET, and WHERE.
-
-    // Then export
+// Export the module
+module.exports = new DB(connection);
