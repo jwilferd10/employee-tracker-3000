@@ -140,8 +140,72 @@ async function addRole() {
 }
 
 // Add ability to ADD employee
+async function addEmployee() {
+    // View all available roles to add the Employee to
+    const positions = await db.viewAllRoles();
+
+    const positionOptions = positions.map(({ id, title }) => ({
+        name: title,
+        value: id
+    }));
+
+    const managers = await db.viewAllEmployees();
+
+    const managerChoice = managers.map(({ id, first_name, last_name }) => ({
+        name: `${first_name} ${last_name}`,
+        value: id
+    }));
+
+    const employee = await inquirer.prompt ([
+        {
+            type: 'input',
+            name: 'first_name',
+            message: 'Enter the name of the employee',
+            validate: answer => {
+                if (answer === '') {
+                    return 'You need to enter the employees first name!'
+                } else {
+                    return true;
+                }
+            },
+        },
+        {
+            type: 'input',
+            name: 'last_name',
+            message: 'Enter the surname of the employee',
+            validate: answer => {
+                if (answer === '') {
+                    return 'You need to add the employees last name!'
+                } else {
+                    return true;
+                }
+            },
+        },
+        {
+            type: 'list',
+            name: 'role_id',
+            message: 'What is the employees current position?',
+            choices: positionOptions
+        },
+        {
+            type: 'list',
+            name: 'manager_id',
+            message: 'Whats the ID of the employees manager?',
+            choices: managerChoice
+        },
+    ])
+
+    await db.addEmployee(employee)
+
+    // Let the user know their input is successful
+    console.log('Success! A new employee has been added')
+    // Continue the application
+    startApp();
+}
 
 // Add ability to UPDATE employee
+async function updateEmployeeRole() {}
+
 
 // Call the function
 startApp();
