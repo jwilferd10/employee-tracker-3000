@@ -8,7 +8,7 @@ async function viewAllDepartments() {
     console.log('\n');
     console.table(department);
 
-    startApp()
+    startApp();
 }
 
 // Add ability to view all roles
@@ -23,4 +23,5 @@ async function viewAllDepartments() {
 
 // Add ability to UPDATE employee
 
-// Finally call the start app
+// Call the function to start the Employee-Tracker
+startApp();
