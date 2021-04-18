@@ -1,3 +1,4 @@
+# :fire: :100: Employee Tracker 3000! :100: :fire:
 :computer: **Github Repo:** https://github.com/jwilferd10/employee-tracker-3000
 <br>
 <br>
@@ -22,6 +23,29 @@
 
 ## Description:
 <p><em>Developers frequently have to create interfaces that make it easy for non-developers to view and interact with information stored in databases. These interfaces are called content management systems (CMS). Your challenge this week is to build a command-line application to manage a company's employee database, using Node.js, Inquirer, and MySQL.</em><p>
+  
+<p>The Employee Tracker 3000 is a command-line application to help manage a software companies' database. The Employee Tracker 3000 is using inquirer prompts that takes the users response in a switch case to display each designated call. These calls and their MySQL functions are connected to the index.js within db directory, same for our connection.</p>
+
+<p>Future plans for this project would be:</p>
+
+- Update employee managers.
+
+- View employees by manager.
+
+- View employees by department.
+
+- Delete departments, roles, and employees.
+
+- View the total utilized budget of a department—i.e., the combined salaries of all employees in that department.
+
+<p>I even added the capability to exit the application, which was a small victory to me!</p>
+  
+<p> Following instructions of the challenge, I tried to design the database schema to closely resemble the following image: </p.
+
+![image](assets/sql-homework-demo.png) 
+
+<p>Developing the Employee-Tracker-3000 was not easy, when I first tried my hand at the challenge it overwhelmed me pretty fast. My introduction into SQL wasn't the best and I found myself incredibly confused. I've come back to the Employee Tracker with a much better understanding of SQL, but ultimately pretty rusty after not having touched the technology for a hot minute. Eventually I was able to push through and get a working product going! Unfortunately my attempts at pushing for any bonus points fell flat and I didn't want to stretch time but it's ready to be used! So please I urge you to try it out and have some fun. </p>
+ 
 
 
 ## :book: User Story:
