@@ -1,8 +1,8 @@
 // Require the connection.js
+const connection = require('./connection');
 
 // Start setting up the Database, within it we want:
 class DB {
-
     // Create a constructer tied to the connection
     constructor(connection) {
         this.connection = connection

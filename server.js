@@ -1,19 +1,26 @@
 // Set up requires
 const inquirer = require('inquirer');
-const { viewAllEmployees, addDepartment, addRole, addEmployee, updateEmployeeRole } = require('./db');
+const { connection } = require('./db');
+// const { viewAllEmployees, addDepartment, addRole, addEmployee, updateEmployeeRole } = require('./db');
 const db = require ('./db');
 require ('console.table');
 
 // Create the function to start the Employee-Tracker, it'll run through the inquirer inquiries
-function startApp() {
+function runEmployeeTracker() {
+    console.log('=====================================');
+    console.log('WELCOME TO THE EMPLOYEE-TRACKER-3000!');
+    console.log('=====================================');
+
+    // Inquirer prompts
     inquirer.prompt ([
         {
             type: 'list',
             name: 'navigation',
-            message: 'Welcome to Employe-Tracker-3000! How can we help?',
-            choices: ['View all Departments', 'View all Roles', 'View all Employees', 'Add Department', 'Add Role', 'Add Employee', 'Update Employee Role']
+            message: 'How can we help?',
+            choices: ['View all Departments', 'View all Roles', 'View all Employees', 'Add Department', 'Add Role', 'Add Employee', 'Update Employee Role', 'Exit']
         }
     ])
+    // Depending on users choice, it will return the specific call.
     .then(response => {
         switch(response.navigation) {
             case 'View all Departments':
@@ -30,6 +37,8 @@ function startApp() {
                 return addEmployee();
             case 'Update Employee Role':
                 return updateEmployeeRole();
+            case 'Exit':
+                return exit();
             // End of Switch cases
         }
     })
@@ -41,7 +50,11 @@ async function viewAllDepartments() {
     console.log('\n');
     console.table(department);
 
-    startApp();
+    // ALert user
+    console.log('VIEWING EVERY DEPARTMENT WITHIN DATABASE');
+
+    // Then run runEmployeeTracker(); to continue.
+    runEmployeeTracker();
 }
 
 // Add ability to view all roles
@@ -50,7 +63,11 @@ async function viewAllRoles() {
     console.log('\n');
     console.table(role);
 
-    startApp()
+    // ALert user
+    console.log('VIEWING EVERY ROLE WITHIN DATABASE');
+
+    // Then run runEmployeeTracker(); to continue.
+    runEmployeeTracker();
 }
 
 // Add ability to view all employees
@@ -59,7 +76,11 @@ async function viewAllEmployees() {
     console.log('\n');
     console.table(employee);
 
-    startApp()
+    // ALert user
+    console.log('VIEWING EVERY EMPLOYEE WITHIN DATABASE');
+
+    // Then run runEmployeeTracker(); to continue.
+    runEmployeeTracker();
 }
 
 // Add ability to ADD department 
@@ -78,10 +99,15 @@ async function addDepartment() {
             }
         },
     ])
+    
     // Await for db.addDeparment
     await db.addDepartment(department)
-    // THEN start the application
-    startApp();
+    
+    // Notify user the role has been successfully added 
+    console.log('Success! Your Department entry has been added');
+
+    // Then run runEmployeeTracker(); to continue.
+    runEmployeeTracker();
 }
 
 // Add ability to ADD role
@@ -134,10 +160,12 @@ async function addRole() {
     ])
     
     await db.addRole(role)
+    
     // Notify user the role has been successfully added 
     console.log('Success! A new role has been added.');
-    // Then run startApp to continue.
-    startApp();
+    
+    // Then run runEmployeeTracker(); to continue.
+    runEmployeeTracker();
 }
 
 // Add ability to ADD employee
@@ -145,6 +173,9 @@ async function addEmployee() {
     // View all available roles to add the Employee to
     const positions = await db.viewAllRoles();
 
+    // So positionOptions is going to take the position id and display it by the TITLE
+    // Further down when positionOptions is invoked, you won't be seeing the department by it's ID's
+    // Instead you'll get the name.
     const positionOptions = positions.map(({ id, title }) => ({
         name: title,
         value: id
@@ -152,12 +183,15 @@ async function addEmployee() {
 
     const managers = await db.viewAllEmployees();
 
+    // Almost the same as positionOptions this just displays the name of the available managers
     const managerChoice = managers.map(({ id, first_name, last_name }) => ({
         name: `${first_name} ${last_name}`,
         value: id
     }));
 
+    // Invoke inquirer prompt
     const employee = await inquirer.prompt ([
+        // User MUST enter the name of the employee FIRST AND LAST
         {
             type: 'input',
             name: 'first_name',
@@ -182,12 +216,14 @@ async function addEmployee() {
                 }
             },
         },
+        // Display and ask what position the employee belongs to
         {
             type: 'list',
             name: 'role_id',
             message: 'What is the employees current position?',
             choices: positionOptions
         },
+        // Display list of managers to add to.
         {
             type: 'list',
             name: 'manager_id',
@@ -200,8 +236,9 @@ async function addEmployee() {
 
     // Let the user know their input is successful
     console.log('Success! A new employee has been added')
-    // Continue the application
-    startApp();
+    
+    // Then run runEmployeeTracker(); to continue.
+    runEmployeeTracker();
 }
 
 // Add ability to UPDATE employee
@@ -209,6 +246,9 @@ async function updateEmployeeRole() {
     // View all available roles to add the Employee to
     const positions = await db.viewAllRoles();
 
+    // So positionOptions is going to take the position id and display it by the TITLE
+    // Further down when positionOptions is invoked, you won't be seeing the department by it's ID's
+    // Instead you'll get the name.
     const positionOptions = positions.map(({ id, title }) => ({
         name: title,
         value: id
@@ -216,6 +256,7 @@ async function updateEmployeeRole() {
 
     const employees = await db.viewAllEmployees();
 
+    // Display list of employees
     const employeeOptions = employees.map(({ id, first_name, last_name }) => ({
         name: `${first_name} ${last_name}`,
         value: id
@@ -240,10 +281,22 @@ async function updateEmployeeRole() {
     ])
 
     await db.updateEmployeeRole(role_id, employee_id)
+    
+    // Notify user the role has been successfully updated
     console.log('Success! The role has been updated.');
-    startApp();
+    
+    // Then run runEmployeeTracker(); to continue.
+    runEmployeeTracker();
 }
 
-
+// Ability to exit the program
+async function exit() {
+    console.log('=====================================================================');
+    console.log('Thank for using Employee-Tracker-3000! Please stop by soon, goodbye!');
+    console.log('=====================================================================');
+    connection.end();
+    return;
+}
 // Call the function
-startApp();
+// Just a heads up, this call invokes the entire EmployeeTracker3000 application
+runEmployeeTracker();
