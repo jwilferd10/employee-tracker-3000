@@ -2,6 +2,7 @@
 const inquirer = require('inquirer');
 const { viewAllEmployees, addDepartment, addRole, addEmployee, updateEmployeeRole } = require('./db');
 const db = require ('./db');
+require ('console.table');
 
 // Create the function to start the Employee-Tracker, it'll run through the inquirer inquiries
 function startApp() {
